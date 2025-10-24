@@ -1,5 +1,6 @@
 import os
 import time
+import errno
 
 cannot_inclue = ['<', '>', ':', '"', '/', '\\', '|', '*', '?']
 
@@ -18,14 +19,21 @@ def get_filename():
 
 def send_to_server():
     while True:
-        printed = False
-        while os.path.exists("lockfile"):
-            if not printed:
-                print("Serwer zajęty, proszę czekać")
-                printed = True
-            time.sleep(1)
-        else:
-            open("lockfile", "w").close()
+        message_printed = False
+        while True:
+            try:
+                fd = os.open("lockfile", os.O_CREAT|os.O_EXCL|os.O_RDWR)
+                print("Uzyskano dostęp do serwera")
+                break
+            except OSError as e:
+                if e.errno != errno.EEXIST:
+                    raise
+                if not message_printed:
+                    print("Serwer zajęty, proszę czekać")
+                    message_printed = True
+                time.sleep(1)
+
+        try:
             filename = get_filename()
 
             with open("bufor.txt", "w") as bufor:
@@ -42,6 +50,10 @@ def send_to_server():
             print("Dane zostały wpisane do bufora.")
             read_from_server(filename)
             break
+        finally:
+            os.close(fd)
+            os.unlink("lockfile")
+            print("Zwolniono dostęp do serwera")
 
 def read_from_server(filename):
     print("Czekam na odpowiedz serwera...")
@@ -54,7 +66,6 @@ def read_from_server(filename):
                 print("Odpowiedz serwera:", "\n".join(lines[:-1]))
 
             os.remove(filename)
-            os.remove("lockfile")
             break
         else: time.sleep(1)
 

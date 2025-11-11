@@ -1,8 +1,26 @@
 import os
 import errno
 import time
+import signal
+import sys
+
+running = True
+
+def handle_usr1(signum, frame):
+    global running
+    print("\nOtrzymano SIGUSR1: serwer kończy działanie.")
+    running = False
+
+signal.signal(signal.SIGHUP, signal.SIG_IGN)
+signal.signal(signal.SIGTERM, signal.SIG_IGN)
+signal.signal(signal.SIGUSR1, handle_usr1)
 
 SERVER = "/tmp/kolejka"
+PID = os.getpid()
+
+with open("./serwer_pid.txt", "w") as file:
+    file.write(f"{PID}")
+print("PID serwera to:", PID)
 
 try:
     os.mkfifo(SERVER)
@@ -25,7 +43,7 @@ def find(ID):
             return character['Nazwisko']
     return "Nie ma."
 
-while True:
+while running:
     with open(SERVER, "r") as fifo:
         data = fifo.read().strip()
 

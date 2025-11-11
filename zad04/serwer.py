@@ -59,6 +59,11 @@ while running:
     os.close(fd)
 
     print(f"Otrzymano ID={ID}.")
+
+    # simulation of slower server
+    # print("Serwer przetwarza zapytanie...")
+    # time.sleep(5)
+
     result = find(ID)
 
     payload = result.encode("utf-8")

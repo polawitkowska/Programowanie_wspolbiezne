@@ -10,17 +10,20 @@ input_queue = sysv_ipc.MessageQueue(INPUT_KEY)
 output_queue = sysv_ipc.MessageQueue(OUTPUT_KEY)
 
 pid = os.getpid()
-message = input("Podaj slowo do przetlumaczenia: ")
+message = input("Podaj slowo do przetlumaczenia, lub 'stop' aby zakonczyc dzialanie serwera: ")
 
 if message.lower() != "stop":
-    # Wysyłanie komunikatu do serwera z typem wiadomości = PID klienta
-    input_queue.send(message.encode(), type=pid)
+    # symulacja zapełnienia serwera
+    for i in range(20):
+        # Wysyłanie komunikatu do serwera z typem wiadomości = PID klienta
+        input_queue.send(message.encode(), type=pid)
+        time.sleep(1)
 
     # Odbieranie odpowiedzi
     while True:
         response, mtype = output_queue.receive(type=pid)  # filtrujemy po PID
         print(f"Klient {pid} otrzymal: {response.decode()}")
-        break
+
 else:
     input_queue.send(message.encode(), type=pid)
     print("Wyslano komunikat stop do serwera.")

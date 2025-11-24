@@ -25,3 +25,10 @@ response = os.read(fd_client, 1024).decode("utf-8")
 os.close(fd_client)
 
 print("Odpowiedź serwera:", response)
+
+try:
+    if os.path.exists(CLIENT):
+        os.unlink(CLIENT)
+        print("FIFO klienta usunięte.")
+except Exception as e:
+    print("Błąd usuwania FIFO klienta:", e)

@@ -14,15 +14,18 @@ message = input("Podaj slowo do przetlumaczenia, lub 'stop' aby zakonczyc dziala
 
 if message.lower() != "stop":
     # symulacja zapełnienia serwera
-    for i in range(20):
-        # Wysyłanie komunikatu do serwera z typem wiadomości = PID klienta
-        input_queue.send(message.encode(), type=pid)
-        time.sleep(1)
+    # for i in range(20):
+    #     # Wysyłanie komunikatu do serwera z typem wiadomości = PID klienta
+    #     input_queue.send(message.encode(), type=pid)
+    #     time.sleep(1)
+    input_queue.send(message.encode(), type=pid)
+
 
     # Odbieranie odpowiedzi
     while True:
         response, mtype = output_queue.receive(type=pid)  # filtrujemy po PID
         print(f"Klient {pid} otrzymal: {response.decode()}")
+        break
 
 else:
     input_queue.send(message.encode(), type=pid)

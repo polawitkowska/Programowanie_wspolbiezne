@@ -42,7 +42,7 @@ try:
         # Wysyłanie odpowiedzi
         response = translate(text)
 
-        time.sleep(2) # testowanie opóźnienia serwera
+        # time.sleep(2) # testowanie opóźnienia serwera
         output_queue.send(response.encode(), type=pid)
 except KeyboardInterrupt:
     print("ERROR. Serwer konczy dzialanie...")

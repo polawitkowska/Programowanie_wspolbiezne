@@ -204,7 +204,6 @@ def player2_game():
         print("\nPrzerwano grę.")
     finally:
         print("\nUsuwanie zasobów IPC...")
-        cleanup_resources(pw1, pw2, sem1, sem2, sem_ready, test_sem=None)
 
 def main():
     try:

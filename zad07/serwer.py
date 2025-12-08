@@ -12,7 +12,6 @@ def run_server():
     print(f"Serwer nasłuchuje na {HOST}:{PORT}")
     print("Czekam na graczy...")
 
-    # Struktury danych
     clients = []      # Lista adresów: [(ip, port), (ip, port)]
     moves = {}        # Słownik ruchów: {adres: 'p'/'k'/'n'}
     scores = {}       # Słownik punktów: {adres: int}
@@ -67,7 +66,7 @@ def run_server():
                 result_p1 = ""
                 result_p2 = ""
 
-                # Logika wyłaniania zwycięzcy
+                # Logika gry
                 if m1 == m2:
                     result_p1 = "REMIS"
                     result_p2 = "REMIS"
@@ -80,11 +79,10 @@ def run_server():
                     result_p2 = "WYGRANA"
                     scores[p2_addr] += 1
 
-                # Wyświetlanie wyników na serwerze
                 print(f"\n--- WYNIK RUNDY ---")
                 print(f"Gracz 1 ({p1_addr}): {names[m1]} | Pkt: {scores[p1_addr]}")
                 print(f"Gracz 2 ({p2_addr}): {names[m2]} | Pkt: {scores[p2_addr]}")
-                print("-------------------\n")
+                print("\n-------------------\n")
 
                 # Wysyłanie odpowiedzi do klientów
                 # Format: "WYNIK:RUCH_PRZECIWNIKA"

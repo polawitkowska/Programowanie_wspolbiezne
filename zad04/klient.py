@@ -3,7 +3,7 @@ import errno
 import struct
 
 SERVER = "/tmp/kolejka"
-CLIENT = "/tmp/klient"
+CLIENT = "/tmp/klient" # to jest źle! każdy klient powinien mieć inne fifo, nie wszyscy takie same
 client_path = CLIENT.encode("utf-8")
 
 try:

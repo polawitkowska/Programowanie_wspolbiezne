@@ -2,12 +2,13 @@ import time
 import math
 from multiprocessing import Pool, cpu_count
 from pierwszePlus import pierwsza1
+from pierwszePlus import pierwsza
 
 def znajdz_male_pierwsze(r):
 	mlp = []
 	s = math.ceil(math.sqrt(r))
 	for i in range(2, s + 1):
-		if all(i % p != 0 for p in mlp if p * p <= i):
+		if pierwsza(i):
 			mlp.append(i)
 	return mlp
 
@@ -43,18 +44,18 @@ def znajdz_blizniacze_rownolegle(l, r, nproc):
 
 if __name__ == "__main__":
 	l = 1
-	r = 200
+	r = 300
 	print(f"Zakres: {l} - {r}")
 	print("Sekwencyjnie:")
 	start = time.time()
 	blizniaki_seq = znajdz_blizniacze_sekwencyjnie(l, r)
 	czas_seq = time.time() - start
-	print(f"Czas: {czas_seq:.2f} s, liczba par: {len(blizniaki_seq)}")
+	print(f"Czas: {czas_seq:.2f} s, pary: {blizniaki_seq}")
 
 	print("\nRównolegle:")
 	nproc = cpu_count()
 	start = time.time()
 	blizniaki_par = znajdz_blizniacze_rownolegle(l, r, nproc)
 	czas_par = time.time() - start
-	print(f"Czas: {czas_par:.2f} s, liczba par: {len(blizniaki_par)}")
+	print(f"Czas: {czas_par:.2f} s, pary: {blizniaki_par}")
 	print(f"Przyspieszenie: {czas_seq/czas_par:.2f}x przy {nproc} procesach")

@@ -1,7 +1,7 @@
 import socket
 import threading
 import time
-from game_logic import make_move, edges, all_edges
+from game_logic import make_move
 
 HOST = '127.0.0.1'
 PORT = 5000

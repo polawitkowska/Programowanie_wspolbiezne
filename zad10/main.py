@@ -44,18 +44,18 @@ def znajdz_blizniacze_rownolegle(l, r, nproc):
 
 if __name__ == "__main__":
 	l = 1
-	r = 300
+	r = 3000000
 	print(f"Zakres: {l} - {r}")
 	print("Sekwencyjnie:")
 	start = time.time()
 	blizniaki_seq = znajdz_blizniacze_sekwencyjnie(l, r)
 	czas_seq = time.time() - start
-	print(f"Czas: {czas_seq:.2f} s, pary: {blizniaki_seq}")
+	print(f"Czas: {czas_seq:.2f} s, ilość par: {len(blizniaki_seq)}")
 
 	print("\nRównolegle:")
 	nproc = cpu_count()
 	start = time.time()
 	blizniaki_par = znajdz_blizniacze_rownolegle(l, r, nproc)
 	czas_par = time.time() - start
-	print(f"Czas: {czas_par:.2f} s, pary: {blizniaki_par}")
+	print(f"Czas: {czas_par:.2f} s, ilość par: {len(blizniaki_par)}")
 	print(f"Przyspieszenie: {czas_seq/czas_par:.2f}x przy {nproc} procesach")
